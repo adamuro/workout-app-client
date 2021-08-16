@@ -1,9 +1,9 @@
-import React from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight } from 'react-native'
-import { useDispatch } from 'react-redux';
-import { fetchAddWorkout } from '../api/workout';
-import { backgroundLight, transparent } from '../colors';
-import { addWorkout, setSelected } from '../slices/workoutSlice';
+import React from "react"
+import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight } from "react-native"
+import { useDispatch } from "react-redux";
+import { fetchAddWorkout } from "../api/workout";
+import { backgroundLight, transparent } from "../styles/colors";
+import { addWorkout, setSelected } from "../slices/workoutSlice";
 
 const NewWorkoutButton = () => {
   const dispatch = useDispatch();
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
-    flex: 1,
     backgroundColor: transparent,
     alignItems: "center",
     justifyContent: "center",

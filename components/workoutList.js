@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchGetAllWorkouts } from '../api/workout';
-import { selectWorkouts, setWorkouts } from '../slices/workoutSlice';
-import WorkoutItem from './workoutItem';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetAllWorkouts } from "../api/workout";
+import { selectWorkouts, setWorkouts } from "../slices/workoutSlice";
+import WorkoutItem from "./workoutItem";
 
 const WorkoutList = () => {
   const dispatch = useDispatch();

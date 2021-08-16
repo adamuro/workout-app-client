@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { fetchDeleteExercise } from '../api/workout';
-import { backgroundLight, danger } from '../colors';
-import { updateWorkout } from '../slices/workoutSlice';
+import React from "react";
+import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { fetchDeleteExercise } from "../api/workout";
+import { backgroundLight, danger } from "../styles/colors";
+import { updateWorkout } from "../slices/workoutSlice";
 
 const ExerciseItem = ({ _id, name }) => {
   const dispatch = useDispatch();

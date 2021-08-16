@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDeleteWorkout } from "../api/workout";
-import { backgroundLight, danger, transparent } from "../colors";
 import { deleteWorkout, selectSelected, setSelected } from "../slices/workoutSlice";
+import { backgroundLight, danger, transparent } from "../styles/colors";
 import ExerciseList from "./exerciseList";
 import NewExerciseForm from "./newExerciseForm";
 
@@ -16,6 +16,7 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
     setCurrentDay(new Date().getDate());
   }, 60000);
 
+  const exercisesList = useMemo(() => <ExerciseList exercises={exercises}/>);
   const selected = useSelector(selectSelected) === _id;
   const backgroundColor = useMemo(() => selected ? transparent : backgroundLight, [index, selected]);
   const dateText = useMemo(() => {
@@ -28,8 +29,10 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
     const currentUTC = Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
     const workoutUTC = Date.UTC(workoutDate.getFullYear(), workoutDate.getMonth(), workoutDate.getDate());
     const dateDifferenceInDays = Math.floor((currentUTC - workoutUTC) / MS_PER_DAY);
+    const dayWord = dateDifferenceInDays === 1 ? "day" : "days";
+    const daysAgoSentence = dateDifferenceInDays === 0 ? "today" : `${dateDifferenceInDays} ${dayWord} ago`;
 
-    return `${workoutDay}-${workoutMonth}-${workoutYear}, so ${dateDifferenceInDays} days ago`;
+    return `${workoutDay}-${workoutMonth}-${workoutYear}, so ${daysAgoSentence}`;
   }, [currentDay]);
 
 
@@ -43,6 +46,7 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
         dispatch(deleteWorkout(_id));
       });
   };
+
 
   return (
     <View style={styles.container}>
@@ -62,11 +66,7 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
           </TouchableHighlight>
         </TouchableOpacity>
       </View>
-      {(selected && exercises.length > 0) && (
-        <ExerciseList 
-          exercises={exercises}
-        />
-      )}
+      {selected && exercises.length > 0 && exercisesList}
       {selected && 
         <NewExerciseForm 
           workout_id={_id}

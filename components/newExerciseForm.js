@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { fetchAddExercise } from '../api/workout';
-import { backgroundLight, transparent } from '../colors';
-import { updateWorkout } from '../slices/workoutSlice';
+import React, { useState } from "react"
+import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { useDispatch } from "react-redux";
+import { fetchAddExercise } from "../api/workout";
+import { backgroundLight, transparent } from "../styles/colors";
+import { updateWorkout } from "../slices/workoutSlice";
 
 const NewExerciseForm = ({ workout_id }) => {
   const dispatch = useDispatch();
@@ -25,6 +25,7 @@ const NewExerciseForm = ({ workout_id }) => {
         placeholder="Exercise name"
         onChangeText={setName}
         value={name}
+        onSubmitEditing={handleAddExercise}
       />
       <TouchableHighlight
         style={styles.button}
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 5,
-    paddingHorizontal: 24.5,
+    paddingHorizontal: 28,
     borderRadius: 30,
     marginLeft: 10,
   },
