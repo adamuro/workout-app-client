@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDeleteWorkout } from "../api/workout";
-import { deleteWorkout, selectSelected, setSelected } from "../slices/workoutSlice";
+import { deleteWorkout, selectSelectedWorkout, setSelectedWorkout } from "../slices/workoutSlice";
 import { backgroundLight, danger, transparent } from "../styles/colors";
 import ExerciseList from "./exerciseList";
 import NewExerciseForm from "./newExerciseForm";
@@ -12,12 +12,16 @@ const MS_PER_DAY = 1000 * 60 * 60 * 24;
 const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
   const dispatch = useDispatch();
   const [currentDay, setCurrentDay] = useState(new Date().getDate());
-  setInterval(() => {
-    setCurrentDay(new Date().getDate());
-  }, 60000);
+  const [intervalRef, setIntervalRef] = useState(null);
 
+  useEffect(() => {
+    setIntervalRef(setInterval(() => setCurrentDay(new Date().getDate()), 60000));
+    return () => clearInterval(intervalRef);
+  }, []);
+
+  const selected = useSelector(selectSelectedWorkout) === _id;
   const exercisesList = useMemo(() => <ExerciseList exercises={exercises}/>);
-  const selected = useSelector(selectSelected) === _id;
+  const newExerciseForm = useMemo(() => <NewExerciseForm workout_id={_id}/>)
   const backgroundColor = useMemo(() => selected ? transparent : backgroundLight, [index, selected]);
   const dateText = useMemo(() => {
     const workoutDate = new Date(createdAt);
@@ -36,7 +40,7 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
   }, [currentDay]);
 
 
-  const handlePress = () => dispatch(setSelected(_id));
+  const handlePress = () => dispatch(setSelectedWorkout(_id));
   const handleDelete = () => {
     fetchDeleteWorkout(_id)
       .then(({ deletedCount, error }) => {
@@ -50,28 +54,16 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <TouchableOpacity
-          style={[styles.item, { backgroundColor }]}
-          onPress={handlePress}
-        >
-          <Text style={styles.text}>
-            {dateText} 
-          </Text>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={handleDelete}
-          >
-            <Text style={styles.buttonText}> DELETE </Text>
-          </TouchableHighlight>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={[styles.item, { backgroundColor }]} onPress={handlePress}>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}> {dateText} </Text>
+        </View>
+        <TouchableHighlight style={styles.button} onPress={handleDelete}>
+          <Text style={styles.buttonText}> DELETE </Text>
+        </TouchableHighlight>
+      </TouchableOpacity>
       {selected && exercises.length > 0 && exercisesList}
-      {selected && 
-        <NewExerciseForm 
-          workout_id={_id}
-        />
-      }
+      {selected && newExerciseForm}
     </View>
   );
 };
@@ -88,11 +80,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    alignContent: "center",
   },
   button: {
+    flex: 1,
     backgroundColor: danger,
-    paddingHorizontal: 15,
     paddingVertical: 5,
     borderRadius: 30,
   },
@@ -100,6 +91,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "500",
+    textAlign: "center",
+  },
+  textContainer: {
+    flex: 2,
   },
   text: {
     fontSize: 16,

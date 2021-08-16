@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   workouts: [],
-  selected: null,
+  selectedWorkout: null,
+  selectedExercise: null,
 };
 
 export const workoutSlice = createSlice({
@@ -21,15 +22,20 @@ export const workoutSlice = createSlice({
     updateWorkout: (state, action) => {
       state.workouts = state.workouts.map((workout) => workout._id !== action.payload._id ? workout : action.payload);
     },
-    setSelected: (state, action) => {
-      state.selected = state.selected !== action.payload ? action.payload : null;
-    }
+    setSelectedWorkout: (state, action) => {
+      state.selectedWorkout = state.selectedWorkout !== action.payload ? action.payload : null;
+      state.selectedExercise = null;
+    },
+    setSelectedExercise: (state, action) => {
+      state.selectedExercise = state.selectedExercise !== action.payload ? action.payload : null;
+    },
   },
 });
 
-export const { setWorkouts, addWorkout, deleteWorkout, updateWorkout, setSelected } = workoutSlice.actions;
+export const { setWorkouts, addWorkout, deleteWorkout, updateWorkout, setSelectedWorkout, setSelectedExercise } = workoutSlice.actions;
 
 export const selectWorkouts = (state) => state.workout.workouts;
-export const selectSelected = (state) => state.workout.selected;
+export const selectSelectedWorkout = (state) => state.workout.selectedWorkout;
+export const selectSelectedExercise = (state) => state.workout.selectedExercise;
 
 export default workoutSlice.reducer;

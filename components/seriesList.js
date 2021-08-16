@@ -1,22 +1,23 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import ExerciseItem from "./exerciseItem";
+import SeriesItem from "./seriesItem";
 
-const ExerciseList = ({ exercises }) => {
-  const keyExtractor = (exercise) => exercise._id;
-  const renderItem = ({ item: exercise }) => {
+const SeriesList = ({ series }) => {
+  const keyExtractor = (series) => series._id;
+  const renderItem = ({ item: series }) => {
     return (
-    <ExerciseItem
-      _id={exercise._id}
-      name={exercise.name}
-      series={exercise.series}
+    <SeriesItem
+      _id={series._id}
+      name={series.name}
+      weight={series.weight}
+      reps={series.reps}
     />
   )};
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={exercises}
+        data={series}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
       />
@@ -30,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExerciseList;
+export default SeriesList;

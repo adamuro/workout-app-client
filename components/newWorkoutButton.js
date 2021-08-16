@@ -1,9 +1,9 @@
-import React from "react"
-import { StyleSheet, View, Text, TouchableOpacity, TouchableHighlight } from "react-native"
+import React from "react";
+import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { fetchAddWorkout } from "../api/workout";
+import { addWorkout, setSelectedWorkout } from "../slices/workoutSlice";
 import { backgroundLight, transparent } from "../styles/colors";
-import { addWorkout, setSelected } from "../slices/workoutSlice";
 
 const NewWorkoutButton = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const NewWorkoutButton = () => {
         if (error) return; // Might need some handling
 
         dispatch(addWorkout(workout));
-        dispatch(setSelected(workout._id));
+        dispatch(setSelectedWorkout(workout._id));
       });
   };
 

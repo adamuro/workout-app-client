@@ -1,14 +1,25 @@
-import React, { useState } from "react"
-import { StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Keyboard, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { fetchAddExercise } from "../api/workout";
-import { backgroundLight, transparent } from "../styles/colors";
 import { updateWorkout } from "../slices/workoutSlice";
+import { backgroundLight, transparent } from "../styles/colors";
 
 const NewExerciseForm = ({ workout_id }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
+  const nameInput = useRef(null);
+
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidHide", handleKeyboardDidHide);
+    return () => Keyboard.removeAllListeners("keyboardDidHide");
+  }, []);
+
+  const handleNameInputFocus = () => setName("");
+  const handleKeyboardDidHide = () => nameInput.current.blur();
   const handleAddExercise = () => {
+    if (!name) return nameInput.current.focus();
+
     fetchAddExercise(workout_id, { name })
       .then(({ workout, error }) => {
         if (error) return; // Might need some handling
@@ -18,20 +29,22 @@ const NewExerciseForm = ({ workout_id }) => {
       });
   };
 
+
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Exercise name"
-        onChangeText={setName}
-        value={name}
-        onSubmitEditing={handleAddExercise}
-      />
-      <TouchableHighlight
-        style={styles.button}
-        onPress={handleAddExercise}
-      >
-        <Text style={styles.text}> ADD </Text>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          onSubmitEditing={handleAddExercise}
+          onFocus={handleNameInputFocus}
+          ref={nameInput}
+          placeholder="New exercise"
+        />
+      </View>
+      <TouchableHighlight style={styles.button} onPress={handleAddExercise}>
+        <Text style={styles.buttonText}> ADD </Text>
       </TouchableHighlight>
     </View>
   );
@@ -48,24 +61,29 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  inputContainer: {
+    flex: 2,
+  },
   input: {
-    flex: 1,
-    color: "white",
+    flex: 2,
     fontSize: 16,
+    color: "white",
+    paddingRight: 10,
+    paddingLeft: 5,
   },
   button: {
+    flex: 1,
     backgroundColor: transparent,
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 5,
-    paddingHorizontal: 28,
     borderRadius: 30,
-    marginLeft: 10,
   },
-  text: {
+  buttonText: {
     color: "white",
     fontWeight: "500",
     fontSize: 16,
+    marginRight: 10,
   },
 });
 

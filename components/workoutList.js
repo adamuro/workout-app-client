@@ -31,10 +31,9 @@ const WorkoutList = () => {
     />
   );
 
-  /* Handle loading */
+  /* Handle loading and error */
   return (
     <View style={styles.container}>
-      {/* ErrorText */}
       <FlatList 
         data={workouts}
         renderItem={renderItem}
