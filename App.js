@@ -10,7 +10,12 @@ import { StatusBar } from "expo-status-bar";
 export default function App() {
   return (
     <View style={styles.container}>
-      <StatusBar style="light"/>
+      <StatusBar
+        style="light"
+        backgroundColor={backgroundLight}
+        animated={true}
+        translucent={false}
+      />
       <Provider store={store}>
         <NewWorkoutButton />
         <WorkoutList />
@@ -23,6 +28,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: backgroundLight,
-    paddingTop: 20,
   },
 });

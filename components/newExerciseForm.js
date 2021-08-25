@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Keyboard, StyleSheet, Text, TextInput, TouchableHighlight, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { fetchAddExercise } from "../api/workout";
-import { updateWorkout } from "../slices/workoutSlice";
+import { setSelectedExercise, updateWorkout } from "../slices/workoutSlice";
 import { backgroundLight, transparent } from "../styles/colors";
 
 const NewExerciseForm = ({ workout_id }) => {
@@ -26,6 +26,7 @@ const NewExerciseForm = ({ workout_id }) => {
 
         setName("");
         dispatch(updateWorkout(workout));
+        dispatch(setSelectedExercise(workout.exercises[workout.exercises.length - 1]._id));
       });
   };
 
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "500",
     fontSize: 16,
-    marginRight: 10,
   },
 });
 

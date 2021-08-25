@@ -37,7 +37,7 @@ const NewSeriesForm = ({ exercise_id }) => {
           onChangeText={setWeight}
           onSubmitEditing={handleAddSeries}
           onFocus={handleWeightInputFocus}
-          maxLength={3}
+          maxLength={5}
           ref={weightInput}
           placeholder="Weight"
           keyboardType="numeric"

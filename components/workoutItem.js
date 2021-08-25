@@ -1,15 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchDeleteWorkout } from "../api/workout";
-import { deleteWorkout, selectSelectedWorkout, setSelectedWorkout } from "../slices/workoutSlice";
+import { deleteWorkout, setSelectedWorkout } from "../slices/workoutSlice";
 import { backgroundLight, danger, transparent } from "../styles/colors";
 import ExerciseList from "./exerciseList";
 import NewExerciseForm from "./newExerciseForm";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
+const WorkoutItem = ({ index, _id, createdAt, exercises, selected, exerciseSelected }) => {
   const dispatch = useDispatch();
   const [currentDay, setCurrentDay] = useState(new Date().getDate());
   const [intervalRef, setIntervalRef] = useState(null);
@@ -19,7 +19,6 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
     return () => clearInterval(intervalRef);
   }, []);
 
-  const selected = useSelector(selectSelectedWorkout) === _id;
   const exercisesList = useMemo(() => <ExerciseList exercises={exercises}/>);
   const newExerciseForm = useMemo(() => <NewExerciseForm workout_id={_id}/>)
   const backgroundColor = useMemo(() => selected ? transparent : backgroundLight, [index, selected]);
@@ -45,7 +44,7 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
     fetchDeleteWorkout(_id)
       .then(({ deletedCount, error }) => {
         if (error) return; // Might need some handling
-        if (deletedCount < 1) return;
+        if (deletedCount !== 1) return;
 
         dispatch(deleteWorkout(_id));
       });
@@ -63,7 +62,7 @@ const WorkoutItem = ({ index, _id, createdAt, exercises }) => {
         </TouchableHighlight>
       </TouchableOpacity>
       {selected && exercises.length > 0 && exercisesList}
-      {selected && newExerciseForm}
+      {selected && !exerciseSelected && newExerciseForm}
     </View>
   );
 };

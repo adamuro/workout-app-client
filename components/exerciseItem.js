@@ -1,18 +1,17 @@
 import React, { useMemo } from "react";
 import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchDeleteExercise } from "../api/workout";
+import { setSelectedExercise, updateWorkout } from "../slices/workoutSlice";
 import { backgroundDark, backgroundLight, danger } from "../styles/colors";
-import { selectSelectedExercise, setSelectedExercise, updateWorkout } from "../slices/workoutSlice";
-import SeriesList from "./seriesList";
 import NewSeriesForm from "./newSeriesForm";
+import SeriesList from "./seriesList";
 
-const ExerciseItem = ({ _id, name, series }) => {
+const ExerciseItem = ({ _id, name, series, selected }) => {
   const dispatch = useDispatch();
 
-  const selected = useSelector(selectSelectedExercise) === _id;
-  const seriesList = useMemo(() => <SeriesList series={series}/>);
-  const newSeriesForm = useMemo(() => <NewSeriesForm exercise_id={_id}/>)
+  const seriesList = useMemo(() => <SeriesList series={series}/>, [series]);
+  const newSeriesForm = useMemo(() => <NewSeriesForm exercise_id={_id}/>, []);
   const backgroundColor = useMemo(() => selected ? backgroundDark : backgroundLight, [selected]);
 
   const handlePress = () => dispatch(setSelectedExercise(_id));
@@ -21,6 +20,8 @@ const ExerciseItem = ({ _id, name, series }) => {
       .then(({ workout, error }) => {
         if (error) return; // Might need some handling
 
+        if (selected)
+          dispatch(setSelectedExercise(_id)) 
         dispatch(updateWorkout(workout));
       });
   };
