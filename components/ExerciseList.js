@@ -2,7 +2,7 @@ import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { selectSelectedExercise } from "../slices/workoutSlice";
-import ExerciseItem from "./exerciseItem";
+import ExerciseItem from "./ExerciseItem";
 
 const ExerciseList = ({ exercises }) => {
   const selected = useSelector(selectSelectedExercise);

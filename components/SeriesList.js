@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
-import SeriesItem from "./seriesItem";
+import SeriesItem from "./SeriesItem";
 
 const SeriesList = ({ series }) => {
   const keyExtractor = (series) => series._id;

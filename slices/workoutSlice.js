@@ -6,6 +6,7 @@ const initialState = {
   selectedExercise: null,
 };
 
+// TODO: check if workout/exercise is selected in components and pass null when true instead of checking in reducers
 export const workoutSlice = createSlice({
   name: "workout",
   initialState,

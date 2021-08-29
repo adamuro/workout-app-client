@@ -1,32 +1,30 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Provider } from "react-redux";
-import { store } from "./store";
-import WorkoutList from "./components/workoutList";
-import NewWorkoutButton from "./components/newWorkoutButton";
-import { backgroundLight } from "./styles/colors";
 import { StatusBar } from "expo-status-bar";
+import { Provider } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { store } from "./store";
+import { backgroundLight } from "./styles/colors";
+import LoginScreen from "./components/LoginScreen";
+import WorkoutsScreen from "./components/WorkoutsScreen";
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <View style={styles.container}>
+    <Provider store={store}>
       <StatusBar
         style="light"
         backgroundColor={backgroundLight}
         animated={true}
         translucent={false}
       />
-      <Provider store={store}>
-        <NewWorkoutButton />
-        <WorkoutList />
-      </Provider>
-    </View>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={LoginScreen}/>
+          <Stack.Screen name="Workouts" component={WorkoutsScreen} options={{ headerBackVisible: false }}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: backgroundLight,
-  },
-});
+};

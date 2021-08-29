@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { fetchDeleteWorkout } from "../api/workout";
 import { deleteWorkout, setSelectedWorkout } from "../slices/workoutSlice";
 import { backgroundLight, danger, transparent } from "../styles/colors";
-import ExerciseList from "./exerciseList";
-import NewExerciseForm from "./newExerciseForm";
+import ExerciseList from "./ExerciseList";
+import NewExerciseForm from "./NewExerciseForm";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 

@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetAllWorkouts } from "../api/workout";
 import { selectSelectedExercise, selectSelectedWorkout, selectWorkouts, setWorkouts } from "../slices/workoutSlice";
-import WorkoutItem from "./workoutItem";
+import WorkoutItem from "./WorkoutItem";
 
 const WorkoutList = () => {
   const dispatch = useDispatch();

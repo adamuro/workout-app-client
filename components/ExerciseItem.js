@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { fetchDeleteExercise } from "../api/workout";
 import { setSelectedExercise, updateWorkout } from "../slices/workoutSlice";
 import { backgroundDark, backgroundLight, danger } from "../styles/colors";
-import NewSeriesForm from "./newSeriesForm";
-import SeriesList from "./seriesList";
+import NewSeriesForm from "./NewSeriesForm";
+import SeriesList from "./SeriesList";
 
 const ExerciseItem = ({ _id, name, series, selected }) => {
   const dispatch = useDispatch();
