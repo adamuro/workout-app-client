@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "re
 import { useDispatch } from "react-redux";
 import { fetchDeleteExercise } from "../api/workout";
 import { setSelectedExercise, updateWorkout } from "../slices/workoutSlice";
-import { backgroundDark, backgroundLight, danger } from "../styles/colors";
+import { backgroundDark, backgroundLight, red } from "../styles/colors";
 import NewSeriesForm from "./NewSeriesForm";
 import SeriesList from "./SeriesList";
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    backgroundColor: danger,
+    backgroundColor: red,
     paddingVertical: 5,
     borderRadius: 30,
   },

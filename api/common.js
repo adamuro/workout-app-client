@@ -5,8 +5,8 @@ const getStorageToken = async () => {
     .catch((error) => null);
 };
 
-// const serverURL = "https://silka-api.herokuapp.com";
-const serverURL = "http://localhost:2137";
+const serverURL = "https://silka-api.herokuapp.com";
+// const serverURL = "http://localhost:2137";
 
 export const headerContentTypeJSON = { "Content-Type": "application/json" };
 export const createHeaderAuthorizationToken = (token) => ({ "Authorization": `Bearer ${token}`});

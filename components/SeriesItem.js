@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from "re
 import { useDispatch } from "react-redux";
 import { fetchDeleteSeries } from "../api/workout";
 import { updateWorkout } from "../slices/workoutSlice";
-import { backgroundLight, danger } from "../styles/colors";
+import { backgroundLight, red } from "../styles/colors";
 
 const SeriesItem = ({ _id, weight, reps }) => {
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    backgroundColor: danger,
+    backgroundColor: red,
     paddingVertical: 5,
     borderRadius: 30,
   },

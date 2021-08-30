@@ -6,7 +6,7 @@ import { StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-nat
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '../api/user';
 import { setUser } from '../slices/userSlice';
-import { backgroundDark, backgroundLight, transparent } from '../styles/colors';
+import { backgroundDark, backgroundLight, red, transparent } from '../styles/colors';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -16,28 +16,25 @@ const LoginScreen = () => {
   const [error, setError] = useState("");
   const errorText = useMemo(() => <Text style={styles.errorText}>{error}</Text>, [error]);
 
+  const handleTokenProvided = (token) => {
+    const user = jwtDecode(token);
+    dispatch(setUser(user));
+    navigation.navigate("Workouts");
+  }
+
   useEffect(() => {
     AsyncStorage.getItem("token")
-      .then((token) => {
-        if (!token) return dispatch(setUser(null));
-
-        const user = jwtDecode(token);
-        dispatch(setUser(user));
-        navigation.navigate("Workouts");
-      })
-      .catch((error) => dispatch(setUser(null)));
+      .then((token) => token ? handleTokenProvided(token) : null)
+      .catch((error) => setError(error.message));
   }, []);
 
   const handleLogin = () => {
     fetchLogin({ username, password })
       .then(({ token, error }) => {
-        if (error) return setError(error);
+        if (!token) return setError(error ?? "");
 
         AsyncStorage.setItem("token", token);
-        const user = jwtDecode(token);
-        dispatch(setUser(user));
-        setError("");
-        navigation.navigate("Workouts");
+        handleTokenProvided(token);
       });
   };
 
@@ -78,7 +75,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: "red",
+    color: red,
     textAlign: "center",
     padding: 10,
   },

@@ -32,15 +32,14 @@ const NewWorkoutButton = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 2,
     backgroundColor: backgroundLight,
-    paddingHorizontal: 50,
-    paddingVertical: 10,
   },
   button: {
+    marginRight: 10,
     backgroundColor: transparent,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 30,
     textAlign: "center",
